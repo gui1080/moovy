@@ -1,6 +1,6 @@
 # Moovy
 
-Backend in NestJs, Postgres. Using Opem Movie Database free tier API key.
+Backend in NestJs, Postgres/Docker. Using Opem Movie Database free tier API key.
 
 [Figma](https://www.figma.com/file/byH2CT5gkq5mKMEXtaAcDE/Dev-Challenge-2021%2F1?type=design&node-id=78-62)
 
@@ -25,6 +25,10 @@ Backend in NestJs, Postgres. Using Opem Movie Database free tier API key.
 
 ```
 npm run start:dev
+```
+
+```
+docker-compose up
 ```
 
 ## API Routes
