@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { MovieList } from './movielist.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Like, Repository } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { SaveMovieDto } from './input/save-movie.dto';
 import { DeleteMovieDto } from './input/delete-movie.dto';
@@ -15,11 +15,12 @@ export class OmdbService {
     private readonly movieListRepository: Repository<MovieList>
   ) { }
   
+  // /omdb/search_movies/:name
   async fetchMoviesByName(name): Promise<any> {
 
     // URL
     const baseUrl = 'http://www.omdbapi.com';
-    const apikey = 'c4666e9f';
+    const apikey = process.env.OMDB_KEY;
     const apiUrl = `${baseUrl}/?apikey=${apikey}&s=${name}&type=movie`;
 
     // get data from open movie database
@@ -38,9 +39,32 @@ export class OmdbService {
     return response.data
   }
 
+  // /omdb/search_list/:name
+  async fetchMovieListByName(movie, user: User): Promise<any> {
+    
+    const id = user.id;
+    
+
+    // !! fix this filter
+
+    // find all movies in list from this user
+    return await this.movieListRepository.find({
+      where: [
+        {
+          user_id: id
+        },
+        {
+          title: Like(`%${movie}%`)
+        }
+      ]
+    });
+
+  }
+
+  // /omdb/add_movie_to_list
   async addMovieToUserList(input: SaveMovieDto, user: User): Promise<MovieList>{
 
-    // user can't add same movie twice
+    // !! user can't add same movie twice
 
     return await this.movieListRepository.save({
       ...input,
@@ -49,6 +73,7 @@ export class OmdbService {
     });
   }
 
+  // /omdb/delete_movie_from_list
   async deleteMovieFromUserList(imdbID: string, user: User): Promise<DeleteResult>{
     
     const id = user.id;
@@ -62,8 +87,8 @@ export class OmdbService {
       .andWhere('user_id = :id', { id })
       .execute();
     }
-
   
+  // /omdb/retrieve_movies_from_current_user
   async getMoviesFromUser(user: User){
     
     const id = user.id;

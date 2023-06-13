@@ -11,7 +11,7 @@ export class OmdbController {
     constructor(
         private readonly OmdbService: OmdbService) {}
 
-    @Get(':name')
+    @Get('/search_movies/:name')
     @UseGuards(AuthGuardJwt)
     async getMovies(@Param('name') name)
     {
@@ -26,6 +26,16 @@ export class OmdbController {
         @CurrentUser() user: User
     ) {
         return await this.OmdbService.addMovieToUserList(input, user);
+    }
+
+    @Post('/search_list/:movie')
+    @UseGuards(AuthGuardJwt)
+    async getMoviesFromList(
+        @Param('movie') movie, 
+        @CurrentUser() user: User 
+    ) {
+        const movies = await this.OmdbService.fetchMovieListByName(movie, user);
+        return movies;
     }
 
     @Post('delete_movie_from_list')

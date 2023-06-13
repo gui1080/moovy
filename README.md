@@ -23,9 +23,13 @@ Backend in NestJs, Postgres/Docker. Using Open Movie Database free tier API key.
 
 ## Instructions on how to use
 
+Start npm as developer env.
+
 ```
 npm run start:dev
 ```
+
+Get postgres database up 'n running.
 
 ```
 docker-compose up
@@ -62,7 +66,7 @@ POST /omdb/add_movie_to_list
 # and adds movie (ImdbId, movie name, poster) to MovieList (with username and userId)
 # save-movie.dto.ts
 
-GET /omdb/:name
+GET /omdb/search_movies/:name
 # Retrieve movies from OMDB
 # Used for searching movies
 

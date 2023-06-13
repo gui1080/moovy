@@ -31,6 +31,10 @@ let OmdbController = exports.OmdbController = class OmdbController {
     async addToList(input, user) {
         return await this.OmdbService.addMovieToUserList(input, user);
     }
+    async getMoviesFromList(movie, user) {
+        const movies = await this.OmdbService.fetchMovieListByName(movie, user);
+        return movies;
+    }
     async deleteFromList(input, user) {
         return await this.OmdbService.deleteMovieFromUserList(input.imdbID, user);
     }
@@ -39,7 +43,7 @@ let OmdbController = exports.OmdbController = class OmdbController {
     }
 };
 __decorate([
-    (0, common_1.Get)(':name'),
+    (0, common_1.Get)('/search_movies/:name'),
     (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
     __param(0, (0, common_1.Param)('name')),
     __metadata("design:type", Function),
@@ -56,6 +60,15 @@ __decorate([
         user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], OmdbController.prototype, "addToList", null);
+__decorate([
+    (0, common_1.Post)('/search_list/:movie'),
+    (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
+    __param(0, (0, common_1.Param)('movie')),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, user_entity_1.User]),
+    __metadata("design:returntype", Promise)
+], OmdbController.prototype, "getMoviesFromList", null);
 __decorate([
     (0, common_1.Post)('delete_movie_from_list'),
     (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),

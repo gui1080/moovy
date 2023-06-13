@@ -7,6 +7,7 @@ export declare class OmdbController {
     constructor(OmdbService: OmdbService);
     getMovies(name: any): Promise<any>;
     addToList(input: SaveMovieDto, user: User): Promise<import("./movielist.entity").MovieList>;
+    getMoviesFromList(movie: any, user: User): Promise<any>;
     deleteFromList(input: DeleteMovieDto, user: User): Promise<import("typeorm").DeleteResult>;
     getFromUser(user: User): Promise<import("./movielist.entity").MovieList[]>;
 }

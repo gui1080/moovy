@@ -24,7 +24,7 @@ let OmdbService = exports.OmdbService = class OmdbService {
     }
     async fetchMoviesByName(name) {
         const baseUrl = 'http://www.omdbapi.com';
-        const apikey = 'c4666e9f';
+        const apikey = process.env.OMDB_KEY;
         const apiUrl = `${baseUrl}/?apikey=${apikey}&s=${name}&type=movie`;
         const response = await axios_1.default.get(apiUrl);
         for (let i = 0; i < response.data['Search'].length; i++) {
@@ -33,6 +33,19 @@ let OmdbService = exports.OmdbService = class OmdbService {
             }
         }
         return response.data;
+    }
+    async fetchMovieListByName(movie, user) {
+        const id = user.id;
+        return await this.movieListRepository.find({
+            where: [
+                {
+                    user_id: id
+                },
+                {
+                    title: (0, typeorm_2.Like)(`%${movie}%`)
+                }
+            ]
+        });
     }
     async addMovieToUserList(input, user) {
         return await this.movieListRepository.save(Object.assign(Object.assign({}, input), { user_id: user.id, user_name: user.username }));
