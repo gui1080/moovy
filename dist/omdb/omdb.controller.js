@@ -19,6 +19,7 @@ const auth_guard_jwt_1 = require("../users/AuthGuard/auth-guard.jwt");
 const current_user_decorator_1 = require("../users/current-user.decorator");
 const user_entity_1 = require("../users/user.entity");
 const save_movie_dto_1 = require("./input/save-movie.dto");
+const delete_movie_dto_1 = require("./input/delete-movie.dto");
 let OmdbController = exports.OmdbController = class OmdbController {
     constructor(OmdbService) {
         this.OmdbService = OmdbService;
@@ -29,6 +30,12 @@ let OmdbController = exports.OmdbController = class OmdbController {
     }
     async addToList(input, user) {
         return await this.OmdbService.addMovieToUserList(input, user);
+    }
+    async deleteFromList(input, user) {
+        return await this.OmdbService.deleteMovieFromUserList(input.imdbID, user);
+    }
+    async getFromUser(user) {
+        return await this.OmdbService.getMoviesFromUser(user);
     }
 };
 __decorate([
@@ -49,6 +56,24 @@ __decorate([
         user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], OmdbController.prototype, "addToList", null);
+__decorate([
+    (0, common_1.Post)('delete_movie_from_list'),
+    (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [delete_movie_dto_1.DeleteMovieDto,
+        user_entity_1.User]),
+    __metadata("design:returntype", Promise)
+], OmdbController.prototype, "deleteFromList", null);
+__decorate([
+    (0, common_1.Post)('retrieve_movies_from_current_user'),
+    (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_entity_1.User]),
+    __metadata("design:returntype", Promise)
+], OmdbController.prototype, "getFromUser", null);
 exports.OmdbController = OmdbController = __decorate([
     (0, common_1.Controller)('omdb'),
     __metadata("design:paramtypes", [omdb_service_1.OmdbService])

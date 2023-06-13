@@ -4,6 +4,7 @@ import { AuthGuardJwt } from 'src/users/AuthGuard/auth-guard.jwt';
 import { CurrentUser } from 'src/users/current-user.decorator';
 import { User } from 'src/users/user.entity';
 import { SaveMovieDto } from './input/save-movie.dto';
+import { DeleteMovieDto } from './input/delete-movie.dto';
 
 @Controller('omdb')
 export class OmdbController {
@@ -26,5 +27,25 @@ export class OmdbController {
     ) {
         return await this.OmdbService.addMovieToUserList(input, user);
     }
+
+    @Post('delete_movie_from_list')
+    @UseGuards(AuthGuardJwt)
+    async deleteFromList(
+        @Body() input: DeleteMovieDto,
+        @CurrentUser() user: User
+    ) {
+        return await this.OmdbService.deleteMovieFromUserList(input.imdbID, user);
+    }
+
+    
+    @Post('retrieve_movies_from_current_user')
+    @UseGuards(AuthGuardJwt)
+    async getFromUser(
+        @CurrentUser() user: User
+    ) {
+        return await this.OmdbService.getMoviesFromUser(user);
+    }
+    
+
 
 }

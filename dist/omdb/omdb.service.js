@@ -35,8 +35,22 @@ let OmdbService = exports.OmdbService = class OmdbService {
         return response.data;
     }
     async addMovieToUserList(input, user) {
-        console.log(user);
         return await this.movieListRepository.save(Object.assign(Object.assign({}, input), { user_id: user.id, user_name: user.username }));
+    }
+    async deleteMovieFromUserList(imdbID, user) {
+        const id = user.id;
+        return await this.movieListRepository
+            .createQueryBuilder('e')
+            .delete()
+            .where('imdbID = :imdbID', { imdbID })
+            .andWhere('user_id = :id', { id })
+            .execute();
+    }
+    async getMoviesFromUser(user) {
+        const id = user.id;
+        return await this.movieListRepository.findBy({
+            user_id: id
+        });
     }
 };
 exports.OmdbService = OmdbService = __decorate([

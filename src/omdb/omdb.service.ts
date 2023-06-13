@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { MovieList } from './movielist.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { SaveMovieDto } from './input/save-movie.dto';
+import { DeleteMovieDto } from './input/delete-movie.dto';
 
 @Injectable()
 export class OmdbService {
@@ -38,7 +39,9 @@ export class OmdbService {
   }
 
   async addMovieToUserList(input: SaveMovieDto, user: User): Promise<MovieList>{
-    console.log(user);
+
+    // user can't add same movie twice
+
     return await this.movieListRepository.save({
       ...input,
       user_id: user.id,
@@ -46,4 +49,32 @@ export class OmdbService {
     });
   }
 
+  async deleteMovieFromUserList(imdbID: string, user: User): Promise<DeleteResult>{
+    
+    const id = user.id;
+
+    // find in movie list
+    // movie with the id and username given and delete It
+    return await this.movieListRepository
+      .createQueryBuilder('e')
+      .delete()
+      .where('imdbID = :imdbID', { imdbID })
+      .andWhere('user_id = :id', { id })
+      .execute();
+    }
+
+  
+  async getMoviesFromUser(user: User){
+    
+    const id = user.id;
+
+    // find all movies in list from this user
+    return await this.movieListRepository.findBy({
+      user_id: id
+    });
+    
+
+  }
+  
+  
 }
