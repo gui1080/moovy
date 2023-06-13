@@ -14,6 +14,8 @@ const auth_controller_1 = require("./auth.controller");
 const auth_service_1 = require("./auth.service");
 const local_strategy_1 = require("./local.strategy");
 const user_entity_1 = require("./user.entity");
+const jwt_strategy_1 = require("./jwt.strategy");
+const users_controller_1 = require("./users.controller");
 let AuthModule = exports.AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule = __decorate([
@@ -29,8 +31,8 @@ exports.AuthModule = AuthModule = __decorate([
                 })
             })
         ],
-        providers: [local_strategy_1.LocalStrategy, auth_service_1.AuthService],
-        controllers: [auth_controller_1.AuthController]
+        providers: [local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy, auth_service_1.AuthService],
+        controllers: [auth_controller_1.AuthController, users_controller_1.UsersController]
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map

@@ -4,11 +4,13 @@ import { OmdbController } from './omdb/omdb.controller'
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
 import { AuthModule } from './users/auth.module';
+import { MovieList } from './omdb/movielist.entity';
 
 @Module({
   imports: [
-      TypeOrmModule.forRootAsync(typeOrmConfig),
-      AuthModule
+      TypeOrmModule.forRoot(typeOrmConfig),
+      AuthModule,
+      TypeOrmModule.forFeature([MovieList]),
     ],
   controllers: [OmdbController],
   providers: [OmdbService],

@@ -13,13 +13,15 @@ const omdb_controller_1 = require("./omdb/omdb.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_config_1 = require("./config/typeorm.config");
 const auth_module_1 = require("./users/auth.module");
+const movielist_entity_1 = require("./omdb/movielist.entity");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forRootAsync(typeorm_config_1.typeOrmConfig),
-            auth_module_1.AuthModule
+            typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeOrmConfig),
+            auth_module_1.AuthModule,
+            typeorm_1.TypeOrmModule.forFeature([movielist_entity_1.MovieList]),
         ],
         controllers: [omdb_controller_1.OmdbController],
         providers: [omdb_service_1.OmdbService],

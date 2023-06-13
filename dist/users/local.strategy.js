@@ -20,6 +20,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const passport_local_1 = require("passport-local");
 const typeorm_2 = require("typeorm");
 const user_entity_1 = require("./user.entity");
+const bcrypt = require("bcrypt");
 let LocalStrategy = exports.LocalStrategy = LocalStrategy_1 = class LocalStrategy extends (0, passport_1.PassportStrategy)(passport_local_1.Strategy) {
     constructor(userRepository) {
         super();
@@ -34,7 +35,7 @@ let LocalStrategy = exports.LocalStrategy = LocalStrategy_1 = class LocalStrateg
             this.logger.debug(`User ${username} not found!`);
             throw new common_1.UnauthorizedException();
         }
-        if (password !== user.password) {
+        if (!(await bcrypt.compare(password, user.password))) {
             this.logger.debug(`Invalid credentials for user ${username}`);
             throw new common_1.UnauthorizedException();
         }

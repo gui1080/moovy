@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
+const bcrypt = require("bcrypt");
 let AuthService = exports.AuthService = class AuthService {
     constructor(jwtService) {
         this.jwtService = jwtService;
@@ -21,6 +22,9 @@ let AuthService = exports.AuthService = class AuthService {
             username: user.username,
             sub: user.id
         });
+    }
+    async hashPassword(password) {
+        return await bcrypt.hash(password, 15);
     }
 };
 exports.AuthService = AuthService = __decorate([

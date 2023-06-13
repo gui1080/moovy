@@ -15,6 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OmdbController = void 0;
 const common_1 = require("@nestjs/common");
 const omdb_service_1 = require("./omdb.service");
+const auth_guard_jwt_1 = require("../users/AuthGuard/auth-guard.jwt");
+const current_user_decorator_1 = require("../users/current-user.decorator");
+const user_entity_1 = require("../users/user.entity");
+const save_movie_dto_1 = require("./input/save-movie.dto");
 let OmdbController = exports.OmdbController = class OmdbController {
     constructor(OmdbService) {
         this.OmdbService = OmdbService;
@@ -23,14 +27,28 @@ let OmdbController = exports.OmdbController = class OmdbController {
         const movies = await this.OmdbService.fetchMoviesByName(name);
         return movies;
     }
+    async addToList(input, user) {
+        return await this.OmdbService.addMovieToUserList(input, user);
+    }
 };
 __decorate([
     (0, common_1.Get)(':name'),
+    (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
     __param(0, (0, common_1.Param)('name')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], OmdbController.prototype, "getMovies", null);
+__decorate([
+    (0, common_1.Post)('add_movie_to_list'),
+    (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [save_movie_dto_1.SaveMovieDto,
+        user_entity_1.User]),
+    __metadata("design:returntype", Promise)
+], OmdbController.prototype, "addToList", null);
 exports.OmdbController = OmdbController = __decorate([
     (0, common_1.Controller)('omdb'),
     __metadata("design:paramtypes", [omdb_service_1.OmdbService])
