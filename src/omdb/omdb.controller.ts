@@ -11,6 +11,8 @@ export class OmdbController {
     constructor(
         private readonly OmdbService: OmdbService) {}
 
+    // Discovery feature
+    // -----------------------
     @Get('/search_movies/:name')
     @UseGuards(AuthGuardJwt)
     async getMovies(@Param('name') name)
@@ -19,6 +21,8 @@ export class OmdbController {
         return movies;
     }
 
+    // List managment
+    // -----------------------
     @Post('add_movie_to_list')
     @UseGuards(AuthGuardJwt)
     async addToList(

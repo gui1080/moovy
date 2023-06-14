@@ -11,12 +11,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MovieList = void 0;
 const typeorm_1 = require("typeorm");
+const uuid_1 = require("uuid");
 let MovieList = exports.MovieList = class MovieList {
+    generateId() {
+        this.id = (0, uuid_1.v4)();
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], MovieList.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.BeforeInsert)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MovieList.prototype, "generateId", null);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)

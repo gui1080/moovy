@@ -20,6 +20,8 @@ Backend in NestJs, Postgres/Docker. Using Open Movie Database free tier API key.
 
 - Add and remove movies from personal library
 - Listen to audio review
+- Filter movies that user registered an review
+- Filter movies pending a review
 
 ## Instructions on how to use
 
@@ -59,7 +61,6 @@ POST /omdb/retrieve_movies_from_current_user
 POST /omdb/delete_movie_from_list
 # Uses jwt token to check user, and deletes a movie
 # on that user's movie list given ImdbId
-# delete-movie.dto.ts
 
 POST /omdb/add_movie_to_list
 # Uses jwt token to check user,
@@ -69,5 +70,9 @@ POST /omdb/add_movie_to_list
 GET /omdb/search_movies/:name
 # Retrieve movies from OMDB
 # Used for searching movies
+
+POST /omdb/search_list/:name
+# Retrieve movies from user list
+# Used for searching movies in user's list
 
 ```

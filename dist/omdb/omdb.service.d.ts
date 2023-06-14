@@ -4,6 +4,7 @@ import { User } from 'src/users/user.entity';
 import { SaveMovieDto } from './input/save-movie.dto';
 export declare class OmdbService {
     private readonly movieListRepository;
+    private readonly logger;
     constructor(movieListRepository: Repository<MovieList>);
     fetchMoviesByName(name: any): Promise<any>;
     fetchMovieListByName(movie: any, user: User): Promise<any>;

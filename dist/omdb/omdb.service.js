@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var OmdbService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OmdbService = void 0;
 const common_1 = require("@nestjs/common");
@@ -18,9 +19,10 @@ const axios_1 = require("axios");
 const movielist_entity_1 = require("./movielist.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-let OmdbService = exports.OmdbService = class OmdbService {
+let OmdbService = exports.OmdbService = OmdbService_1 = class OmdbService {
     constructor(movieListRepository) {
         this.movieListRepository = movieListRepository;
+        this.logger = new common_1.Logger(OmdbService_1.name);
     }
     async fetchMoviesByName(name) {
         const baseUrl = 'http://www.omdbapi.com';
@@ -39,25 +41,61 @@ let OmdbService = exports.OmdbService = class OmdbService {
         return await this.movieListRepository.find({
             where: [
                 {
-                    user_id: id
-                },
-                {
-                    title: (0, typeorm_2.Like)(`%${movie}%`)
+                    user_id: id,
+                    title: (0, typeorm_2.ILike)(`%${movie}%`)
                 }
             ]
         });
     }
     async addMovieToUserList(input, user) {
-        return await this.movieListRepository.save(Object.assign(Object.assign({}, input), { user_id: user.id, user_name: user.username }));
+        const baseUrl = 'http://www.omdbapi.com';
+        const apikey = process.env.OMDB_KEY;
+        const apiUrl = `${baseUrl}/?apikey=${apikey}&i=${input.imdbID}&type=movie`;
+        const response = await axios_1.default.get(apiUrl);
+        if (response.data["Response"] == "False") {
+            this.logger.debug(`Imdb movie ID ${input.imdbID} does not exist!`);
+            throw new common_1.UnauthorizedException();
+        }
+        else {
+            const old_movie = await this.movieListRepository.findOne({
+                where: [
+                    {
+                        user_id: user.id,
+                        imdbID: input.imdbID
+                    }
+                ]
+            });
+            if (!old_movie) {
+                return await this.movieListRepository.save(Object.assign(Object.assign({}, input), { user_id: user.id, user_name: user.username }));
+            }
+            else {
+                this.logger.debug(`Imdb movie ID ${input.imdbID} is already on user's list!`);
+                throw new common_1.UnauthorizedException();
+            }
+        }
     }
     async deleteMovieFromUserList(imdbID, user) {
         const id = user.id;
-        return await this.movieListRepository
-            .createQueryBuilder('e')
-            .delete()
-            .where('imdbID = :imdbID', { imdbID })
-            .andWhere('user_id = :id', { id })
-            .execute();
+        const old_movie = await this.movieListRepository.findOne({
+            where: [
+                {
+                    user_id: id,
+                    imdbID: imdbID
+                }
+            ]
+        });
+        if (old_movie) {
+            return await this.movieListRepository
+                .createQueryBuilder('e')
+                .delete()
+                .where('imdbID = :imdbID', { imdbID })
+                .andWhere('user_id = :id', { id })
+                .execute();
+        }
+        else {
+            this.logger.debug(`Imdb movie ID ${imdbID} is not on user's list, so It cannot be deleted!`);
+            throw new common_1.UnauthorizedException();
+        }
     }
     async getMoviesFromUser(user) {
         const id = user.id;
@@ -66,7 +104,7 @@ let OmdbService = exports.OmdbService = class OmdbService {
         });
     }
 };
-exports.OmdbService = OmdbService = __decorate([
+exports.OmdbService = OmdbService = OmdbService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(movielist_entity_1.MovieList)),
     __metadata("design:paramtypes", [typeorm_2.Repository])

@@ -1,5 +1,6 @@
 import { User } from "src/users/user.entity";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { v4 as uuidv4 } from 'uuid';
 
 // List of saved movies
 // Is basically a list of movies retrieved from OMDB
@@ -9,6 +10,10 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class MovieList {
     @PrimaryGeneratedColumn()
     id: number;
+    @BeforeInsert()
+    generateId() {
+        this.id = uuidv4();
+    }
 
     @Column()
     title: string;
