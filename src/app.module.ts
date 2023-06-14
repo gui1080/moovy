@@ -5,14 +5,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
 import { AuthModule } from './users/auth.module';
 import { MovieList } from './omdb/movielist.entity';
+import { Audio } from './audio_lib/audio.entity';
+import { AudioController } from './audio_lib/audio.controller';
+import { AudioService } from './audio_lib/audio.service';
+import { MulterModule } from '@nestjs/platform-express';
+import { multerConfig } from './config/multer.config';
 
 @Module({
   imports: [
+      MulterModule.register(multerConfig),
       TypeOrmModule.forRoot(typeOrmConfig),
       AuthModule,
-      TypeOrmModule.forFeature([MovieList]),
+      TypeOrmModule.forFeature([MovieList, Audio]),
     ],
-  controllers: [OmdbController],
-  providers: [OmdbService],
+  controllers: [OmdbController, AudioController],
+  providers: [OmdbService, AudioService],
 })
 export class AppModule {}

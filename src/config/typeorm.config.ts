@@ -7,6 +7,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     username: 'postgres',
     password: '123ronaldo',
     database: 'moovy_db',
-    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+    entities: [__dirname + '/../**/*.entity{.ts,.js}'], // every entity possible
     synchronize: true,
 };
