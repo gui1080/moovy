@@ -52,7 +52,10 @@ export class OmdbService {
           user_id: id,
           title: ILike(`%${movie}%`)
         }
-      ]
+      ],
+      order: {
+        title: 'ASC', 
+      },
     });
 
   }
@@ -61,7 +64,6 @@ export class OmdbService {
   async addMovieToUserList(input: SaveMovieDto, user: User): Promise<MovieList>{
 
     // check If this input.imdbID is valid at all
-    
     // URL
     const baseUrl = 'http://www.omdbapi.com';
     const apikey = process.env.OMDB_KEY;
@@ -150,8 +152,13 @@ export class OmdbService {
     const id = user.id;
 
     // find all movies in list from this user
-    return await this.movieListRepository.findBy({
-      user_id: id
+    return await this.movieListRepository.find({
+      where: {
+        user_id: id,
+      },
+      order: {
+        title: 'ASC', 
+      },
     });
     
   }

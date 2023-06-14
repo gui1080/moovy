@@ -15,17 +15,19 @@ export class UsersController{
         private readonly userRepository: Repository<User>
 
         ) {}
-
+    
+    // Make a new user
+    // -----------------------
     @Post('create_user')
     async create(@Body() createUserDto: CreateUserDto){
         const user = new User();
 
+        // passwords do not match
         if(createUserDto.password !== createUserDto.retypedPassword){
             throw new BadRequestException(['Passwords do not match!']);
         }
 
         // email and user must be unique
-
         const existing_user = await this.userRepository.findOne({
             where: [
                 {username: createUserDto.username},

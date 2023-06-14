@@ -5,8 +5,7 @@ export class SaveMovieDto {
     @Length(5, 255)
     title: string;
 
-    @IsString()
-    @Length(5, 255)
+    @Length(5, 25)
     imdbID: string;
 
     @IsString()

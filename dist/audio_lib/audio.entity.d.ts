@@ -7,5 +7,6 @@ export declare class Audio {
     mimetype: string;
     size: number;
     made_by_username: string;
+    made_by_userid: number;
     about_imdbID: string;
 }

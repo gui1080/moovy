@@ -9,14 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AudioInputDto = void 0;
+exports.SearchMovieDto = void 0;
 const class_validator_1 = require("class-validator");
-class AudioInputDto {
+class SearchMovieDto {
 }
-exports.AudioInputDto = AudioInputDto;
+exports.SearchMovieDto = SearchMovieDto;
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(5, 10),
+    (0, class_validator_1.Length)(5, 25),
     __metadata("design:type", String)
-], AudioInputDto.prototype, "imdbID", void 0);
-//# sourceMappingURL=audio-input.dto.js.map
+], SearchMovieDto.prototype, "imdbID", void 0);
+//# sourceMappingURL=imdb-identifier.dto.js.map

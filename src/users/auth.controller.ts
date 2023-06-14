@@ -11,7 +11,9 @@ export class AuthController {
     constructor(
         private readonly authService: AuthService
     ) { }
-
+    
+    // Users login
+    // -----------------------
     @Post('login')
     @UseGuards(AuthGuardLocal)
     async login(@CurrentUser() user: User) {
@@ -22,6 +24,7 @@ export class AuthController {
         }
     }
 
+    // Test -> Get my profile
     @Get('profile')
     @UseGuards(AuthGuardJwt)
     async getProfile(@CurrentUser() user: User) {

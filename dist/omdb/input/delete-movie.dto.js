@@ -15,8 +15,7 @@ class DeleteMovieDto {
 }
 exports.DeleteMovieDto = DeleteMovieDto;
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(5, 255),
+    (0, class_validator_1.Length)(5, 25),
     __metadata("design:type", String)
 ], DeleteMovieDto.prototype, "imdbID", void 0);
 //# sourceMappingURL=delete-movie.dto.js.map

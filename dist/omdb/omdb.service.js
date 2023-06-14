@@ -99,8 +99,13 @@ let OmdbService = exports.OmdbService = OmdbService_1 = class OmdbService {
     }
     async getMoviesFromUser(user) {
         const id = user.id;
-        return await this.movieListRepository.findBy({
-            user_id: id
+        return await this.movieListRepository.find({
+            where: {
+                user_id: id,
+            },
+            order: {
+                title: 'ASC',
+            },
         });
     }
 };

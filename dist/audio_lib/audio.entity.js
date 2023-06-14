@@ -22,7 +22,7 @@ __decorate([
     __metadata("design:type", Buffer)
 ], Audio.prototype, "data", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
 ], Audio.prototype, "filename", void 0);
 __decorate([
@@ -41,6 +41,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Audio.prototype, "made_by_username", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Audio.prototype, "made_by_userid", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)

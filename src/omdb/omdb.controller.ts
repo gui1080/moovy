@@ -21,6 +21,8 @@ export class OmdbController {
         return movies;
     }
 
+    //! search, and get only the best match
+
     // List managment
     // -----------------------
     @Post('add_movie_to_list')
@@ -32,6 +34,7 @@ export class OmdbController {
         return await this.OmdbService.addMovieToUserList(input, user);
     }
 
+    // search within my movie list
     @Post('/search_list/:movie')
     @UseGuards(AuthGuardJwt)
     async getMoviesFromList(
@@ -42,6 +45,7 @@ export class OmdbController {
         return movies;
     }
 
+    // delete movie in the list
     @Post('delete_movie_from_list')
     @UseGuards(AuthGuardJwt)
     async deleteFromList(
@@ -51,7 +55,7 @@ export class OmdbController {
         return await this.OmdbService.deleteMovieFromUserList(input.imdbID, user);
     }
 
-    
+    // retrieve all movies from authenticated user
     @Post('retrieve_movies_from_current_user')
     @UseGuards(AuthGuardJwt)
     async getFromUser(
@@ -60,6 +64,4 @@ export class OmdbController {
         return await this.OmdbService.getMoviesFromUser(user);
     }
     
-
-
 }

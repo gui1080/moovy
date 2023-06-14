@@ -18,30 +18,111 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const audio_entity_1 = require("./audio.entity");
 const fs_1 = require("fs");
+const movielist_entity_1 = require("../omdb/movielist.entity");
 let AudioService = exports.AudioService = class AudioService {
-    constructor(audioRepository) {
+    constructor(audioRepository, movieListRepository) {
         this.audioRepository = audioRepository;
+        this.movieListRepository = movieListRepository;
     }
     async storeAudio(file, user, imdbID) {
-        console.log(file);
-        console.log(file.path);
-        const audioData = (0, fs_1.readFileSync)(file.path);
-        const audio = this.audioRepository.create({
-            filename: file.filename,
-            data: audioData,
-            originalname: file.originalname,
-            mimetype: file.mimetype,
-            size: file.size,
-            made_by_username: user.username,
-            about_imdbID: imdbID
+        const old_audio = await this.audioRepository.findOne({
+            where: [
+                {
+                    made_by_userid: user.id,
+                    about_imdbID: imdbID
+                }
+            ]
         });
-        await this.audioRepository.save(audio);
-        return `/audio/${audio.id}`;
+        if (old_audio) {
+            throw new common_1.NotFoundException('There is an audio for this movie already! Do not upload twice!');
+        }
+        else {
+            const audioData = (0, fs_1.readFileSync)(file.path);
+            const audio = this.audioRepository.create({
+                filename: file.filename,
+                data: audioData,
+                originalname: file.originalname,
+                mimetype: file.mimetype,
+                size: file.size,
+                made_by_username: user.username,
+                made_by_userid: user.id,
+                about_imdbID: imdbID
+            });
+            await this.audioRepository.save(audio);
+            return `/audio/${audio.id}`;
+        }
+    }
+    async retrieveSingleAudio(user, imdbID) {
+        const audio = await this.audioRepository.findOne({
+            where: [
+                {
+                    made_by_userid: user.id,
+                    about_imdbID: imdbID
+                }
+            ]
+        });
+        return audio.data;
+    }
+    async retrieveAllUserAudio(user) {
+        const id = user.id;
+        return await this.audioRepository.find({
+            where: [
+                {
+                    made_by_userid: id
+                }
+            ]
+        });
+    }
+    async removeUserAudio(user, imdbID) {
+        const audio = await this.audioRepository.findOne({
+            where: [
+                {
+                    made_by_userid: user.id,
+                    about_imdbID: imdbID
+                }
+            ]
+        });
+        if (!audio) {
+            throw new common_1.NotFoundException('Audio not found!');
+        }
+        else {
+            await this.audioRepository.remove(audio);
+        }
+    }
+    async retrieveMoviesReviewed(user) {
+        const id = user.id;
+        const imdb_list = await this.audioRepository.find({
+            select: ['about_imdbID'],
+            where: [
+                {
+                    made_by_userid: id
+                }
+            ]
+        });
+        const imdbIDs = imdb_list.map(movie => movie.about_imdbID);
+        const movies_reviewd = await this.movieListRepository.findBy({ imdbID: (0, typeorm_2.In)(imdbIDs) });
+        return movies_reviewd;
+    }
+    async retrieveMoviesNotReviewed(user) {
+        const id = user.id;
+        const imdb_list = await this.audioRepository.find({
+            select: ['about_imdbID'],
+            where: [
+                {
+                    made_by_userid: id
+                }
+            ]
+        });
+        const imdbIDs = imdb_list.map(movie => movie.about_imdbID);
+        const movies_reviewd = await this.movieListRepository.findBy({ imdbID: (0, typeorm_2.Not)((0, typeorm_2.In)(imdbIDs)) });
+        return movies_reviewd;
     }
 };
 exports.AudioService = AudioService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(audio_entity_1.Audio)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(movielist_entity_1.MovieList)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], AudioService);
 //# sourceMappingURL=audio.service.js.map

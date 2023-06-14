@@ -8,7 +8,7 @@ export class Audio {
     @Column('bytea', { nullable: true })
     data: Buffer;
 
-    @Column()
+    @Column({unique:true})
     filename: string;
 
     @Column()
@@ -22,6 +22,9 @@ export class Audio {
 
     @Column()
     made_by_username: string;
+
+    @Column()
+    made_by_userid: number;
 
     @Column()
     about_imdbID: string;

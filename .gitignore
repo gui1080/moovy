@@ -1,4 +1,5 @@
 *.pdf
+*.mp3
 moovy/node_modules
 .env
 node_modules

@@ -31,6 +31,25 @@ let AudioController = exports.AudioController = class AudioController {
         const audioUrl = await this.audioService.storeAudio(file, user, imdbID);
         return { audioUrl };
     }
+    async retrieveAudio(file, user, imdbID) {
+        const audio = await this.audioService.retrieveSingleAudio(user, imdbID);
+        return { audio };
+    }
+    async retrieveAllUserAudio(user) {
+        const audios = await this.audioService.retrieveAllUserAudio(user);
+        return { audios };
+    }
+    async deleteUserAudio(user, imdbID) {
+        await this.audioService.removeUserAudio(user, imdbID);
+    }
+    async retrieveMoviesReviewed(user) {
+        const movies = await this.audioService.retrieveMoviesReviewed(user);
+        return { movies };
+    }
+    async retrieveMoviesNotReviewed(user) {
+        const movies = await this.audioService.retrieveMoviesNotReviewed(user);
+        return { movies };
+    }
 };
 __decorate([
     (0, common_1.Post)('upload/:imdbID'),
@@ -43,6 +62,54 @@ __decorate([
     __metadata("design:paramtypes", [Object, user_entity_1.User, Object]),
     __metadata("design:returntype", Promise)
 ], AudioController.prototype, "uploadAudio", null);
+__decorate([
+    (0, common_1.Get)('retrieve/:imdbID'),
+    (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', multer_config_1.multerConfig)),
+    __param(0, (0, common_1.UploadedFile)()),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __param(2, (0, common_1.Param)('imdbID')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, user_entity_1.User, Object]),
+    __metadata("design:returntype", Promise)
+], AudioController.prototype, "retrieveAudio", null);
+__decorate([
+    (0, common_1.Get)('retrieveAll'),
+    (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', multer_config_1.multerConfig)),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_entity_1.User]),
+    __metadata("design:returntype", Promise)
+], AudioController.prototype, "retrieveAllUserAudio", null);
+__decorate([
+    (0, common_1.Post)('deleteAudio/:imdbID'),
+    (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', multer_config_1.multerConfig)),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, common_1.Param)('imdbID')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_entity_1.User, Object]),
+    __metadata("design:returntype", Promise)
+], AudioController.prototype, "deleteUserAudio", null);
+__decorate([
+    (0, common_1.Get)('retrieveMoviesReviewed'),
+    (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', multer_config_1.multerConfig)),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_entity_1.User]),
+    __metadata("design:returntype", Promise)
+], AudioController.prototype, "retrieveMoviesReviewed", null);
+__decorate([
+    (0, common_1.Get)('retrieveMoviesNotReviewed'),
+    (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', multer_config_1.multerConfig)),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_entity_1.User]),
+    __metadata("design:returntype", Promise)
+], AudioController.prototype, "retrieveMoviesNotReviewed", null);
 exports.AudioController = AudioController = __decorate([
     (0, common_1.Controller)('audio'),
     __metadata("design:paramtypes", [audio_service_1.AudioService])

@@ -5,9 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
 import { AuthModule } from './users/auth.module';
 import { MovieList } from './omdb/movielist.entity';
-import { Audio } from './audio_lib/audio.entity';
-import { AudioController } from './audio_lib/audio.controller';
-import { AudioService } from './audio_lib/audio.service';
+import { Audio } from './user_audio_lib/audio.entity';
+import { AudioController } from './user_audio_lib/audio.controller';
+import { AudioService } from './user_audio_lib/audio.service';
 import { MulterModule } from '@nestjs/platform-express';
 import { multerConfig } from './config/multer.config';
 
