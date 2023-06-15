@@ -17,8 +17,8 @@ const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const typeorm_1 = require("@nestjs/typeorm");
 const passport_jwt_1 = require("passport-jwt");
-const typeorm_2 = require("typeorm");
 const user_entity_1 = require("./user.entity");
+const user_repository_1 = require("./user.repository");
 let JwtStrategy = exports.JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
     constructor(userRepository) {
         super({
@@ -40,6 +40,6 @@ let JwtStrategy = exports.JwtStrategy = class JwtStrategy extends (0, passport_1
 exports.JwtStrategy = JwtStrategy = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [user_repository_1.UserRepository])
 ], JwtStrategy);
 //# sourceMappingURL=jwt.strategy.js.map

@@ -5,6 +5,7 @@ import { Strategy } from "passport-local";
 import { Repository } from "typeorm";
 import { User } from "./user.entity";
 import * as bcrypt from "bcrypt"
+import { UserRepository } from "./user.repository";
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -13,7 +14,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
     constructor(
         @InjectRepository(User)
-        private readonly userRepository: Repository<User>
+        private readonly userRepository: UserRepository
     ) {
         super();
     }

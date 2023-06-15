@@ -1,11 +1,10 @@
 import { Strategy } from "passport-local";
-import { Repository } from "typeorm";
-import { User } from "./user.entity";
+import { UserRepository } from "./user.repository";
 declare const LocalStrategy_base: new (...args: any[]) => Strategy;
 export declare class LocalStrategy extends LocalStrategy_base {
     private readonly userRepository;
     private readonly logger;
-    constructor(userRepository: Repository<User>);
+    constructor(userRepository: UserRepository);
     validate(username: string, password: string): Promise<any>;
 }
 export {};

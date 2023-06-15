@@ -17,8 +17,8 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const create_user_dto_1 = require("./input/create.user.dto");
 const user_entity_1 = require("./user.entity");
-const typeorm_1 = require("typeorm");
-const typeorm_2 = require("@nestjs/typeorm");
+const typeorm_1 = require("@nestjs/typeorm");
+const user_repository_1 = require("./user.repository");
 let UsersController = exports.UsersController = class UsersController {
     constructor(authService, userRepository) {
         this.authService = authService;
@@ -55,8 +55,8 @@ __decorate([
 ], UsersController.prototype, "create", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
-    __param(1, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
+    __param(1, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
-        typeorm_1.Repository])
+        user_repository_1.UserRepository])
 ], UsersController);
 //# sourceMappingURL=users.controller.js.map

@@ -4,6 +4,7 @@ import { CreateUserDto } from "./input/create.user.dto";
 import { User } from "./user.entity";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UserRepository } from "./user.repository";
 
 @Controller('users')
 export class UsersController{
@@ -12,7 +13,7 @@ export class UsersController{
         private readonly authService: AuthService,
         
         @InjectRepository(User)
-        private readonly userRepository: Repository<User>
+        private readonly userRepository: UserRepository
 
         ) {}
     
