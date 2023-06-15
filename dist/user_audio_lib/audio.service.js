@@ -19,6 +19,8 @@ const typeorm_2 = require("typeorm");
 const audio_entity_1 = require("./audio.entity");
 const fs_1 = require("fs");
 const movielist_entity_1 = require("../omdb/movielist.entity");
+const audio_repository_1 = require("./audio.repository");
+const movielist_repository_1 = require("../omdb/movielist.repository");
 let AudioService = exports.AudioService = class AudioService {
     constructor(audioRepository, movieListRepository) {
         this.audioRepository = audioRepository;
@@ -150,7 +152,7 @@ exports.AudioService = AudioService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(audio_entity_1.Audio)),
     __param(1, (0, typeorm_1.InjectRepository)(movielist_entity_1.MovieList)),
-    __metadata("design:paramtypes", [typeorm_2.Repository,
-        typeorm_2.Repository])
+    __metadata("design:paramtypes", [audio_repository_1.AudioRepository,
+        movielist_repository_1.MovieListRepository])
 ], AudioService);
 //# sourceMappingURL=audio.service.js.map

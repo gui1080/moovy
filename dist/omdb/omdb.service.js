@@ -19,6 +19,7 @@ const axios_1 = require("axios");
 const movielist_entity_1 = require("./movielist.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
+const movielist_repository_1 = require("./movielist.repository");
 let OmdbService = exports.OmdbService = OmdbService_1 = class OmdbService {
     constructor(movieListRepository) {
         this.movieListRepository = movieListRepository;
@@ -115,6 +116,6 @@ let OmdbService = exports.OmdbService = OmdbService_1 = class OmdbService {
 exports.OmdbService = OmdbService = OmdbService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(movielist_entity_1.MovieList)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [movielist_repository_1.MovieListRepository])
 ], OmdbService);
 //# sourceMappingURL=omdb.service.js.map

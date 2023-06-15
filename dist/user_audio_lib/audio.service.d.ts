@@ -1,13 +1,13 @@
 /// <reference types="multer" />
 /// <reference types="node" />
-import { Repository } from 'typeorm';
-import { Audio } from './audio.entity';
 import { User } from 'src/users/user.entity';
 import { MovieList } from 'src/omdb/movielist.entity';
+import { AudioRepository } from './audio.repository';
+import { MovieListRepository } from 'src/omdb/movielist.repository';
 export declare class AudioService {
     private readonly audioRepository;
     private readonly movieListRepository;
-    constructor(audioRepository: Repository<Audio>, movieListRepository: Repository<MovieList>);
+    constructor(audioRepository: AudioRepository, movieListRepository: MovieListRepository);
     storeAudio(file: Express.Multer.File, user: User, imdbID: any): Promise<string>;
     retrieveSingleAudio(user: User, imdbID: any): Promise<Buffer>;
     retrieveAllUserAudio(user: User): Promise<any>;

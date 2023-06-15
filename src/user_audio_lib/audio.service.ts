@@ -5,14 +5,16 @@ import { Audio } from './audio.entity';
 import { User } from 'src/users/user.entity';
 import { readFileSync } from 'fs';
 import { MovieList } from 'src/omdb/movielist.entity';
+import { AudioRepository } from './audio.repository';
+import { MovieListRepository } from 'src/omdb/movielist.repository';
 
 @Injectable()
 export class AudioService {
     constructor(
         @InjectRepository(Audio)
-        private readonly audioRepository: Repository<Audio>,
+        private readonly audioRepository: AudioRepository,
         @InjectRepository(MovieList)
-        private readonly movieListRepository: Repository<MovieList>
+        private readonly movieListRepository: MovieListRepository
     ) {}
     
     // audio/upload/:imdbID

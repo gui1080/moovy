@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, ILike, Repository } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { SaveMovieDto } from './input/save-movie.dto';
+import { MovieListRepository } from './movielist.repository';
 
 @Injectable()
 export class OmdbService {
@@ -13,7 +14,7 @@ export class OmdbService {
   
   constructor(
     @InjectRepository(MovieList)
-    private readonly movieListRepository: Repository<MovieList>
+    private readonly movieListRepository: MovieListRepository
   ) { }
   
   // /omdb/search_movies/:name
