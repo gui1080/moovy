@@ -61,10 +61,9 @@ export class AudioService {
                     originalname: file.originalname,
                     mimetype: file.mimetype,
                     size: file.size,
-                    made_by_username: user.username,    // provided by this user
-                    made_by_userid: user.id,            // with this user id
-                    about_imdbID: imdbID,                // about this movie, with this imdbID
-                    movie: movie_on_list
+                    made_by_userid: user.id,     // belongs to user with this user id
+                    about_imdbID: imdbID,        // about this imdbID
+                    movie: movie_on_list         // this entry on movielist
                 });
                 
                 await this.audioRepository.save(audio);

@@ -2,6 +2,10 @@ import { Expose } from 'class-transformer';
 import { MovieList } from 'src/omdb/movielist.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, BeforeInsert, JoinColumn } from 'typeorm';
 
+// Audio database
+// Every audio is made by one user, one user only
+// Every audio is attached to one movie
+
 @Entity()
 export class Audio {
     @PrimaryGeneratedColumn()
@@ -34,6 +38,7 @@ export class Audio {
     @OneToOne(() => MovieList, movie => movie.id)
     @JoinColumn()
     movie: MovieList;
+
 }
 
 

@@ -1,4 +1,5 @@
 /// <reference types="multer" />
+/// <reference types="node" />
 import { AudioService } from './audio.service';
 import { User } from 'src/users/user.entity';
 export declare class AudioController {

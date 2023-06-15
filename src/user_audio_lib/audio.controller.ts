@@ -5,6 +5,7 @@ import { multerConfig } from 'src/config/multer.config';
 import { AudioService } from './audio.service';
 import { User } from 'src/users/user.entity';
 import { AuthGuardJwt } from 'src/users/AuthGuard/auth-guard.jwt';
+import { imdbIDValidationPipe } from './imdbID-validation.pipe';
 
 @Controller('audio')
 export class AudioController {
@@ -18,13 +19,9 @@ export class AudioController {
     async uploadAudio(
             @UploadedFile() file: Express.Multer.File,  // audio file
             @CurrentUser() user: User,                  // saves audio file to this user bc authentication
-            @Param('imdbID') imdbID,                    // the movie the audio refers to
+            @Param('imdbID', imdbIDValidationPipe) imdbID,                    // the movie the audio refers to
         ) {
         
-        console.log(imdbID)
-        console.log(user.firstName)
-        console.log(file) // undefined
-
         // save audio
         const audioUrl = await this.audioService.storeAudio(file, user, imdbID);
         
@@ -38,7 +35,7 @@ export class AudioController {
     async retrieveAudio(
             @UploadedFile() file: Express.Multer.File,  // audio file
             @CurrentUser() user: User,                  // user can only get his audio data
-            @Param('imdbID') imdbID,                    // movie the audio refers to
+            @Param('imdbID', imdbIDValidationPipe) imdbID,                    // movie the audio refers to
         ) {
         
 
@@ -70,7 +67,7 @@ export class AudioController {
     @UseInterceptors(FileInterceptor('file', multerConfig))
     async deleteUserAudio(
             @CurrentUser() user: User,                  // user can only get his audio list
-            @Param('imdbID') imdbID,
+            @Param('imdbID', imdbIDValidationPipe) imdbID,
         ) {
 
         // remove audio

@@ -2,6 +2,7 @@ import { BeforeInsert, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedCol
 import { v4 as uuidv4 } from 'uuid';
 import { Audio } from '../user_audio_lib/audio.entity';
 import { Expose } from "class-transformer";
+import { User } from "src/users/user.entity";
 
 // List of saved movies
 // Is basically a list of movies retrieved from OMDB

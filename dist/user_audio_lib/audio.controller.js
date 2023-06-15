@@ -20,14 +20,12 @@ const multer_config_1 = require("../config/multer.config");
 const audio_service_1 = require("./audio.service");
 const user_entity_1 = require("../users/user.entity");
 const auth_guard_jwt_1 = require("../users/AuthGuard/auth-guard.jwt");
+const imdbID_validation_pipe_1 = require("./imdbID-validation.pipe");
 let AudioController = exports.AudioController = class AudioController {
     constructor(audioService) {
         this.audioService = audioService;
     }
     async uploadAudio(file, user, imdbID) {
-        console.log(imdbID);
-        console.log(user.firstName);
-        console.log(file);
         const audioUrl = await this.audioService.storeAudio(file, user, imdbID);
         return { audioUrl };
     }
@@ -57,7 +55,7 @@ __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', multer_config_1.multerConfig)),
     __param(0, (0, common_1.UploadedFile)()),
     __param(1, (0, current_user_decorator_1.CurrentUser)()),
-    __param(2, (0, common_1.Param)('imdbID')),
+    __param(2, (0, common_1.Param)('imdbID', imdbID_validation_pipe_1.imdbIDValidationPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, user_entity_1.User, Object]),
     __metadata("design:returntype", Promise)
@@ -68,7 +66,7 @@ __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', multer_config_1.multerConfig)),
     __param(0, (0, common_1.UploadedFile)()),
     __param(1, (0, current_user_decorator_1.CurrentUser)()),
-    __param(2, (0, common_1.Param)('imdbID')),
+    __param(2, (0, common_1.Param)('imdbID', imdbID_validation_pipe_1.imdbIDValidationPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, user_entity_1.User, Object]),
     __metadata("design:returntype", Promise)
@@ -87,7 +85,7 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_jwt_1.AuthGuardJwt),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', multer_config_1.multerConfig)),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
-    __param(1, (0, common_1.Param)('imdbID')),
+    __param(1, (0, common_1.Param)('imdbID', imdbID_validation_pipe_1.imdbIDValidationPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_entity_1.User, Object]),
     __metadata("design:returntype", Promise)

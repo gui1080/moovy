@@ -54,7 +54,6 @@ let AudioService = exports.AudioService = class AudioService {
                     originalname: file.originalname,
                     mimetype: file.mimetype,
                     size: file.size,
-                    made_by_username: user.username,
                     made_by_userid: user.id,
                     about_imdbID: imdbID,
                     movie: movie_on_list
