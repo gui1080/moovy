@@ -13,7 +13,7 @@ import { UsersController } from "./users.controller";
         TypeOrmModule.forFeature([User]),
         JwtModule.registerAsync({
             useFactory: () => ({
-                secret: 'tarken',
+                secret: process.env.AUTH_SECRET,
                 signOptions: {
                     expiresIn: '60m'
                 }

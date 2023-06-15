@@ -24,7 +24,7 @@ exports.AuthModule = AuthModule = __decorate([
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]),
             jwt_1.JwtModule.registerAsync({
                 useFactory: () => ({
-                    secret: 'tarken',
+                    secret: process.env.AUTH_SECRET,
                     signOptions: {
                         expiresIn: '60m'
                     }
