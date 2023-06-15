@@ -25,6 +25,14 @@ let AudioService = exports.AudioService = class AudioService {
         this.movieListRepository = movieListRepository;
     }
     async storeAudio(file, user, imdbID) {
+        const movie_on_list = await this.movieListRepository.findOne({
+            where: [
+                {
+                    user_id: user.id,
+                    imdbID: imdbID
+                }
+            ]
+        });
         const old_audio = await this.audioRepository.findOne({
             where: [
                 {
@@ -37,19 +45,28 @@ let AudioService = exports.AudioService = class AudioService {
             throw new common_1.NotFoundException('There is an audio for this movie already! Do not upload twice!');
         }
         else {
-            const audioData = (0, fs_1.readFileSync)(file.path);
-            const audio = this.audioRepository.create({
-                filename: file.filename,
-                data: audioData,
-                originalname: file.originalname,
-                mimetype: file.mimetype,
-                size: file.size,
-                made_by_username: user.username,
-                made_by_userid: user.id,
-                about_imdbID: imdbID
-            });
-            await this.audioRepository.save(audio);
-            return `/audio/${audio.id}`;
+            console.log(movie_on_list);
+            if (movie_on_list) {
+                const audioData = (0, fs_1.readFileSync)(file.path);
+                const audio = this.audioRepository.create({
+                    filename: file.filename,
+                    data: audioData,
+                    originalname: file.originalname,
+                    mimetype: file.mimetype,
+                    size: file.size,
+                    made_by_username: user.username,
+                    made_by_userid: user.id,
+                    about_imdbID: imdbID,
+                    movie: movie_on_list
+                });
+                await this.audioRepository.save(audio);
+                movie_on_list.audio = audio;
+                await this.movieListRepository.save(movie_on_list);
+                return `/audio/${audio.id}`;
+            }
+            else {
+                throw new common_1.NotFoundException('Watch the movie first, and then write a review for It!');
+            }
         }
     }
     async retrieveSingleAudio(user, imdbID) {
@@ -70,7 +87,10 @@ let AudioService = exports.AudioService = class AudioService {
                 {
                     made_by_userid: id
                 }
-            ]
+            ],
+            order: {
+                originalname: 'ASC',
+            },
         });
     }
     async removeUserAudio(user, imdbID) {
@@ -80,7 +100,10 @@ let AudioService = exports.AudioService = class AudioService {
                     made_by_userid: user.id,
                     about_imdbID: imdbID
                 }
-            ]
+            ],
+            order: {
+                originalname: 'ASC',
+            },
         });
         if (!audio) {
             throw new common_1.NotFoundException('Audio not found!');
@@ -97,7 +120,10 @@ let AudioService = exports.AudioService = class AudioService {
                 {
                     made_by_userid: id
                 }
-            ]
+            ],
+            order: {
+                originalname: 'ASC',
+            },
         });
         const imdbIDs = imdb_list.map(movie => movie.about_imdbID);
         const movies_reviewd = await this.movieListRepository.findBy({ imdbID: (0, typeorm_2.In)(imdbIDs) });
@@ -111,7 +137,10 @@ let AudioService = exports.AudioService = class AudioService {
                 {
                     made_by_userid: id
                 }
-            ]
+            ],
+            order: {
+                originalname: 'ASC',
+            },
         });
         const imdbIDs = imdb_list.map(movie => movie.about_imdbID);
         const movies_reviewd = await this.movieListRepository.findBy({ imdbID: (0, typeorm_2.Not)((0, typeorm_2.In)(imdbIDs)) });

@@ -20,7 +20,6 @@ __decorate([
     __metadata("design:type", String)
 ], SaveMovieDto.prototype, "title", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
     (0, class_validator_1.Length)(5, 25),
     __metadata("design:type", String)
 ], SaveMovieDto.prototype, "imdbID", void 0);

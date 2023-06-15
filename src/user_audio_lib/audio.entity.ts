@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Expose } from 'class-transformer';
+import { MovieList } from 'src/omdb/movielist.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, BeforeInsert, JoinColumn } from 'typeorm';
 
 @Entity()
 export class Audio {
@@ -29,4 +31,9 @@ export class Audio {
     @Column()
     about_imdbID: string;
 
+    @OneToOne(() => MovieList, movie => movie.id)
+    @JoinColumn()
+    movie: MovieList;
 }
+
+

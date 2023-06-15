@@ -1,3 +1,4 @@
+import { Audio } from '../user_audio_lib/audio.entity';
 export declare class MovieList {
     id: number;
     generateId(): void;
@@ -6,4 +7,5 @@ export declare class MovieList {
     poster: string;
     user_id: number;
     user_name: string;
+    audio: Audio;
 }

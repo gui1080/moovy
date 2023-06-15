@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MovieList = void 0;
 const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
+const audio_entity_1 = require("../user_audio_lib/audio.entity");
 let MovieList = exports.MovieList = class MovieList {
     generateId() {
         this.id = (0, uuid_1.v4)();
@@ -47,6 +48,11 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], MovieList.prototype, "user_name", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => audio_entity_1.Audio, { nullable: true }),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", audio_entity_1.Audio)
+], MovieList.prototype, "audio", void 0);
 exports.MovieList = MovieList = __decorate([
     (0, typeorm_1.Entity)()
 ], MovieList);

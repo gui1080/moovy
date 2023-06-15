@@ -14,9 +14,9 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_config_1 = require("./config/typeorm.config");
 const auth_module_1 = require("./users/auth.module");
 const movielist_entity_1 = require("./omdb/movielist.entity");
-const audio_entity_1 = require("./audio_lib/audio.entity");
-const audio_controller_1 = require("./audio_lib/audio.controller");
-const audio_service_1 = require("./audio_lib/audio.service");
+const audio_entity_1 = require("./user_audio_lib/audio.entity");
+const audio_controller_1 = require("./user_audio_lib/audio.controller");
+const audio_service_1 = require("./user_audio_lib/audio.service");
 const platform_express_1 = require("@nestjs/platform-express");
 const multer_config_1 = require("./config/multer.config");
 let AppModule = exports.AppModule = class AppModule {

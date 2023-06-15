@@ -1,6 +1,7 @@
-import { User } from "src/users/user.entity";
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { v4 as uuidv4 } from 'uuid';
+import { Audio } from '../user_audio_lib/audio.entity';
+import { Expose } from "class-transformer";
 
 // List of saved movies
 // Is basically a list of movies retrieved from OMDB
@@ -27,7 +28,11 @@ export class MovieList {
     @Column()
     user_id: number;
 
-    @Column()
+    @Column()  
     user_name: string;
+
+    @OneToOne(() => Audio, { nullable: true })
+    @JoinColumn()
+    audio: Audio;
 
 }

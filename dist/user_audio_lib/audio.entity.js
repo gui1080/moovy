@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Audio = void 0;
+const movielist_entity_1 = require("../omdb/movielist.entity");
 const typeorm_1 = require("typeorm");
 let Audio = exports.Audio = class Audio {
 };
@@ -49,6 +50,11 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Audio.prototype, "about_imdbID", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => movielist_entity_1.MovieList, movie => movie.id),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", movielist_entity_1.MovieList)
+], Audio.prototype, "movie", void 0);
 exports.Audio = Audio = __decorate([
     (0, typeorm_1.Entity)()
 ], Audio);

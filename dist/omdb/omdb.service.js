@@ -44,7 +44,10 @@ let OmdbService = exports.OmdbService = OmdbService_1 = class OmdbService {
                     user_id: id,
                     title: (0, typeorm_2.ILike)(`%${movie}%`)
                 }
-            ]
+            ],
+            order: {
+                title: 'ASC',
+            },
         });
     }
     async addMovieToUserList(input, user) {

@@ -47,6 +47,7 @@ export class AudioService {
         }
         else{
             
+            console.log(movie_on_list)
             // If the user watched and added that movie to his movie list
             if(movie_on_list){
 
@@ -62,10 +63,15 @@ export class AudioService {
                     size: file.size,
                     made_by_username: user.username,    // provided by this user
                     made_by_userid: user.id,            // with this user id
-                    about_imdbID: imdbID                // about this movie, with this imdbID
+                    about_imdbID: imdbID,                // about this movie, with this imdbID
+                    movie: movie_on_list
                 });
                 
                 await this.audioRepository.save(audio);
+
+                // update movielist's audio object
+                movie_on_list.audio = audio;
+                await this.movieListRepository.save(movie_on_list);
     
                 return `/audio/${audio.id}`;
 
